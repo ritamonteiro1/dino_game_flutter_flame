@@ -52,6 +52,19 @@ class WidgetBookDinoGame extends StatelessWidget {
                 );
               },
             ),
+            WidgetbookUseCase(
+              name: "Game Over",
+              builder: (context) {
+                return GameOverMenu(
+                  title: "Game Over",
+                  subtitle: "Seu Score: 20",
+                  textFirstButton: "Restart",
+                  textSecondButton: "Exit",
+                  onPressedFirstButton: () {},
+                  onPressedSecondButton: () {},
+                );
+              },
+            ),
           ],
         ),
       ],

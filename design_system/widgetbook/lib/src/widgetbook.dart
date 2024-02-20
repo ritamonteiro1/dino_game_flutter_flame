@@ -38,6 +38,20 @@ class WidgetBookDinoGame extends StatelessWidget {
                 );
               },
             ),
+            WidgetbookUseCase(
+              name: "Settings",
+              builder: (context) {
+                return SettingsMenu(
+                  firstText: "Music",
+                  secondText: "Effects",
+                  isActiveFirstSwitch: true,
+                  isActiveSecondSwitch: false,
+                  onChangedFirstSwitch: (bool value) {},
+                  onChangedSecondSwitch: (bool value) {},
+                  onPressedIconBack: () {},
+                );
+              },
+            ),
           ],
         ),
       ],

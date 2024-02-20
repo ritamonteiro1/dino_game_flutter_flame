@@ -1,0 +1,22 @@
+name: widgetbook_dino_game
+description: "Pacote responsável pela visualização dos componentes do design system"
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  design_system:
+    path: ../../design_system
+  widgetbook: ^3.7.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true

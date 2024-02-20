@@ -12,6 +12,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   dependencies_src:
     path: ../dependencies_src
+  design_system:
+    path: ../design_system
 
 dev_dependencies:
   flutter_test:

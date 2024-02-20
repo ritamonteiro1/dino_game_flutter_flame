@@ -2,6 +2,7 @@ name: dino_game_flutter
 
 packages:
   - dependencies_src
+  - design_system
   - game
 
 command:

@@ -67,6 +67,25 @@ class WidgetBookDinoGame extends StatelessWidget {
             ),
           ],
         ),
+        WidgetbookComponent(
+          name: "Hud",
+          useCases: [
+            WidgetbookUseCase(
+              name: "Hud",
+              builder: (context) {
+                return Container(
+                  color: Colors.black,
+                  child: Hud(
+                    firstText: "Score: 20",
+                    secondText: "High: 22",
+                    onPressedPauseIcon: () {},
+                    lives: 4,
+                  ),
+                );
+              },
+            ),
+          ],
+        )
       ],
     );
   }

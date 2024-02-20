@@ -80,7 +80,7 @@ class WidgetBookDinoGame extends StatelessWidget {
           ],
         ),
         WidgetbookComponent(
-          name: "Hud",
+          name: "Others",
           useCases: [
             WidgetbookUseCase(
               name: "Hud",
@@ -93,6 +93,15 @@ class WidgetBookDinoGame extends StatelessWidget {
                     onPressedPauseIcon: () {},
                     lives: 4,
                   ),
+                );
+              },
+            ),
+            WidgetbookUseCase(
+              name: "Loading",
+              builder: (context) {
+                return Container(
+                  color: Colors.black,
+                  child: const LoadingGame(),
                 );
               },
             ),

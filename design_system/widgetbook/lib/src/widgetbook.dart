@@ -24,6 +24,20 @@ class WidgetBookDinoGame extends StatelessWidget {
                 );
               },
             ),
+            WidgetbookUseCase(
+              name: "Pause",
+              builder: (context) {
+                return PauseMenu(
+                  title: "Score: 100",
+                  textFirstButton: "Resume",
+                  textSecondButton: "Restart",
+                  textThirdButton: "Exit",
+                  onPressedFirstButton: () {},
+                  onPressedSecondButton: () {},
+                  onPressedThirdButton: () {},
+                );
+              },
+            ),
           ],
         ),
       ],

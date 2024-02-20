@@ -1,0 +1,58 @@
+name: dino_game_flutter
+
+packages:
+  - dependencies_src
+  - game
+
+command:
+  bootstrap:
+    hooks:
+      pre: melos run clean
+
+scripts:
+  lint:all:
+    run: melos run analyze && melos run format
+    description: Run all static analysis checks.
+
+  analyze:
+    run: dart analyze . --fatal-infos
+    exec:
+      concurrency: 2
+    description: |
+      Run dart analyze in all packages.
+       - Note: you can also rely on your IDEs Dart Analysis / Issues window.
+
+  format:
+    run: dart format .
+    exec:
+      concurrency: 2
+    description: Formats the code of all packages (Dart).
+
+  test:
+    run: "flutter test"
+    exec:
+      failFast: true
+    description: Run flutter test for a specific package.
+    packageFilters:
+      dirExists:
+        - test
+      ignore:
+        - "web"
+        - "odm"
+        - "example"
+
+  clean:
+    exec: flutter clean
+
+  pub:get:
+    exec: flutter pub get
+
+  build_runner:build:
+    exec: flutter pub run build_runner build --delete-conflicting-outputs
+    packageFilters:
+      dependsOn: build_runner
+
+  build_runner:watch:
+    exec: flutter pub run build_runner watch --delete-conflicting-outputs
+    packageFilters:
+      dependsOn: build_runner

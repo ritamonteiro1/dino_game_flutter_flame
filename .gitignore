@@ -1,0 +1,5 @@
+.idea/
+.dart_tool/
+pubspec.lock
+melos_dino_game_flutter.iml
+**/**/pubspec_overrides.yaml

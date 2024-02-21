@@ -1,2 +1,9 @@
+export 'package:flame/camera.dart';
+export 'package:flame/collisions.dart';
+export 'package:flame/components.dart';
+export 'package:flame/extensions.dart';
 export 'package:flame/flame.dart';
+export 'package:flame/game.dart';
+export 'package:flame/parallax.dart';
+export 'package:flame/src/components/input/advanced_button_component.dart';
 export 'package:flame_audio/flame_audio.dart';

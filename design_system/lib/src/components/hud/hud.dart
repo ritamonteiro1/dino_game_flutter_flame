@@ -14,8 +14,6 @@ class Hud extends StatelessWidget {
   final VoidCallback onPressedPauseIcon;
   final int lives;
 
-  static const id = 'Hud';
-
   @override
   Widget build(BuildContext context) {
     return Padding(

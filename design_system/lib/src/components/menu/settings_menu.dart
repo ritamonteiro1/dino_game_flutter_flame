@@ -22,8 +22,6 @@ class SettingsMenu extends StatelessWidget {
   final void Function(bool) onChangedSecondSwitch;
   final VoidCallback onPressedIconBack;
 
-  static const id = 'SettingsMenu';
-
   @override
   Widget build(BuildContext context) {
     return Center(

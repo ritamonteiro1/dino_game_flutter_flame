@@ -20,8 +20,6 @@ class GameOverMenu extends StatelessWidget {
   final VoidCallback onPressedFirstButton;
   final VoidCallback onPressedSecondButton;
 
-  static const id = 'GameOverMenu';
-
   @override
   Widget build(BuildContext context) {
     return Center(

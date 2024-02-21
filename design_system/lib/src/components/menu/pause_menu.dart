@@ -22,8 +22,6 @@ class PauseMenu extends StatelessWidget {
   final VoidCallback onPressedSecondButton;
   final VoidCallback onPressedThirdButton;
 
-  static const id = 'PauseMenu';
-
   @override
   Widget build(BuildContext context) {
     return Center(

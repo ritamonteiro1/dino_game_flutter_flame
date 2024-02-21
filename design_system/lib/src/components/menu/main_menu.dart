@@ -18,8 +18,6 @@ class MainMenu extends StatelessWidget {
   final VoidCallback onPressedFirstButton;
   final VoidCallback onPressedSecondButton;
 
-  static const String id = 'MainMenu';
-
   @override
   Widget build(BuildContext context) {
     return Center(

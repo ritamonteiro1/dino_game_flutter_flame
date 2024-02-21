@@ -1,6 +1,6 @@
 import 'package:dependencies_src/dependencies_src.dart';
 
-class Enemy {
+class EnemyModel {
   final Image image;
   final int nFrames;
   final double stepTime;
@@ -8,7 +8,7 @@ class Enemy {
   final double speedX;
   final bool canFly;
 
-  const Enemy({
+  const EnemyModel({
     required this.image,
     required this.nFrames,
     required this.stepTime,

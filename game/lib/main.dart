@@ -39,7 +39,7 @@ class DinoApp extends StatelessWidget {
 
   Map<String, OverlayWidgetBuilder<DinoGame>> _overlayBuilderWidgets() {
     return {
-      OverLayBuilderIds.hud: (_, game) {
+      OverLayBuilderIds.hud: (BuildContext context, DinoGame game) {
         return Hud(
           firstText: "Score: 20",
           secondText: "High: 22",
@@ -47,7 +47,7 @@ class DinoApp extends StatelessWidget {
           lives: 4,
         );
       },
-      OverLayBuilderIds.mainMenu: (_, game) {
+      OverLayBuilderIds.mainMenu: (BuildContext context, DinoGame game) {
         return MainMenu(
           title: "Dino Game",
           textFirstButton: "Jogar",
@@ -59,7 +59,7 @@ class DinoApp extends StatelessWidget {
           onPressedSecondButton: () {},
         );
       },
-      OverLayBuilderIds.pauseMenu: (_, game) {
+      OverLayBuilderIds.pauseMenu: (BuildContext context, DinoGame game) {
         return PauseMenu(
           title: "Score: 100",
           textFirstButton: "Resume",
@@ -70,7 +70,7 @@ class DinoApp extends StatelessWidget {
           onPressedThirdButton: () {},
         );
       },
-      OverLayBuilderIds.settingsMenu: (_, game) {
+      OverLayBuilderIds.settingsMenu: (BuildContext context, DinoGame game) {
         return SettingsMenu(
           firstText: "Music",
           secondText: "Effects",
@@ -81,7 +81,7 @@ class DinoApp extends StatelessWidget {
           onPressedIconBack: () {},
         );
       },
-      OverLayBuilderIds.gameOverMenu: (_, game) {
+      OverLayBuilderIds.gameOverMenu: (BuildContext context, DinoGame game) {
         return GameOverMenu(
           title: "Game Over",
           subtitle: "Seu Score: 20",

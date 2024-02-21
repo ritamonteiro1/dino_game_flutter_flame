@@ -23,6 +23,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/
+    - assets/images/angry_pig/
+    - assets/images/bat/
+    - assets/images/angry_pig/
+    - assets/images/dino/
+    - assets/images/parallax/
+    - assets/images/rino/
     - assets/audio/
 

@@ -2,7 +2,7 @@ import 'package:dependencies_src/dependencies_src.dart';
 import 'package:game/src/components/dino/dino_component.dart';
 import 'package:game/src/entities/dino/dino_model.dart';
 import 'package:game/src/entities/dino/dino_states.dart';
-import 'package:game/src/utils/assets_game.dart';
+import 'package:game/src/utils/constants/assets_game.dart';
 
 class DinoGame extends FlameGame {
   DinoGame({
@@ -35,6 +35,10 @@ class DinoGame extends FlameGame {
   void startGame() {
     _createDinoComponent();
     world.add(_dinoComponent);
+  }
+
+  void resetGame() {
+    _dinoComponent.removeFromParent();
   }
 
   void _createDinoComponent() {

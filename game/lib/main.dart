@@ -2,7 +2,7 @@ import 'package:dependencies_src/dependencies_src.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:game/src/system/dino_game.dart';
-import 'package:game/src/utils/overlay_builder_ids.dart';
+import 'package:game/src/utils/constants/overlay_builder_ids.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +43,12 @@ class DinoApp extends StatelessWidget {
         return Hud(
           firstText: "Score: 20",
           secondText: "High: 22",
-          onPressedPauseIcon: () {},
+          onPressedPauseIcon: () {
+            game.overlays.remove(OverLayBuilderIds.hud);
+            game.overlays.add(OverLayBuilderIds.pauseMenu);
+            game.pauseEngine();
+            FlameAudio.bgm.pause();
+          },
           lives: 4,
         );
       },
@@ -57,7 +62,10 @@ class DinoApp extends StatelessWidget {
             game.overlays.add(OverLayBuilderIds.hud);
             game.startGame();
           },
-          onPressedSecondButton: () {},
+          onPressedSecondButton: () {
+            game.overlays.remove(OverLayBuilderIds.mainMenu);
+            game.overlays.add(OverLayBuilderIds.settingsMenu);
+          },
         );
       },
       OverLayBuilderIds.pauseMenu: (BuildContext context, DinoGame game) {
@@ -66,9 +74,27 @@ class DinoApp extends StatelessWidget {
           textFirstButton: "Resume",
           textSecondButton: "Restart",
           textThirdButton: "Exit",
-          onPressedFirstButton: () {},
-          onPressedSecondButton: () {},
-          onPressedThirdButton: () {},
+          onPressedFirstButton: () {
+            game.overlays.remove(OverLayBuilderIds.pauseMenu);
+            game.overlays.add(OverLayBuilderIds.hud);
+            game.resumeEngine();
+            FlameAudio.bgm.resume();
+          },
+          onPressedSecondButton: () {
+            game.overlays.remove(OverLayBuilderIds.pauseMenu);
+            game.overlays.add(OverLayBuilderIds.hud);
+            game.resumeEngine();
+            game.resetGame();
+            game.startGame();
+            FlameAudio.bgm.resume();
+          },
+          onPressedThirdButton: () {
+            game.overlays.remove(OverLayBuilderIds.pauseMenu);
+            game.overlays.add(OverLayBuilderIds.hud);
+            game.resumeEngine();
+            game.resetGame();
+            FlameAudio.bgm.resume();
+          },
         );
       },
       OverLayBuilderIds.settingsMenu: (BuildContext context, DinoGame game) {
@@ -79,7 +105,10 @@ class DinoApp extends StatelessWidget {
           isActiveSecondSwitch: false,
           onChangedFirstSwitch: (bool value) {},
           onChangedSecondSwitch: (bool value) {},
-          onPressedIconBack: () {},
+          onPressedIconBack: () {
+            game.overlays.remove(OverLayBuilderIds.settingsMenu);
+            game.overlays.add(OverLayBuilderIds.mainMenu);
+          },
         );
       },
       OverLayBuilderIds.gameOverMenu: (BuildContext context, DinoGame game) {
@@ -88,8 +117,21 @@ class DinoApp extends StatelessWidget {
           subtitle: "Seu Score: 20",
           textFirstButton: "Restart",
           textSecondButton: "Exit",
-          onPressedFirstButton: () {},
-          onPressedSecondButton: () {},
+          onPressedFirstButton: () {
+            game.overlays.remove(OverLayBuilderIds.gameOverMenu);
+            game.overlays.add(OverLayBuilderIds.hud);
+            game.resumeEngine();
+            game.resetGame();
+            game.startGame();
+            FlameAudio.bgm.resume();
+          },
+          onPressedSecondButton: () {
+            game.overlays.remove(OverLayBuilderIds.gameOverMenu);
+            game.overlays.add(OverLayBuilderIds.mainMenu);
+            game.resumeEngine();
+            game.resetGame();
+            FlameAudio.bgm.resume();
+          },
         );
       },
     };

@@ -38,9 +38,9 @@ class WidgetBookDinoGame extends StatelessWidget {
                   color: Colors.grey,
                   child: PauseMenu(
                     title: "Score: 100",
-                    textFirstButton: "Resume",
-                    textSecondButton: "Restart",
-                    textThirdButton: "Exit",
+                    textFirstButton: "Retornar",
+                    textSecondButton: "Recomeçar",
+                    textThirdButton: "Sair",
                     onPressedFirstButton: () {},
                     onPressedSecondButton: () {},
                     onPressedThirdButton: () {},
@@ -54,8 +54,8 @@ class WidgetBookDinoGame extends StatelessWidget {
                 return Container(
                   color: Colors.grey,
                   child: SettingsMenu(
-                    firstText: "Music",
-                    secondText: "Effects",
+                    firstText: "Música",
+                    secondText: "Efeitos",
                     isActiveFirstSwitch: true,
                     isActiveSecondSwitch: false,
                     onChangedFirstSwitch: (bool value) {},
@@ -73,8 +73,8 @@ class WidgetBookDinoGame extends StatelessWidget {
                   child: GameOverMenu(
                     title: "Game Over",
                     subtitle: "Seu Score: 20",
-                    textFirstButton: "Restart",
-                    textSecondButton: "Exit",
+                    textFirstButton: "Recomeçar",
+                    textSecondButton: "Sair",
                     onPressedFirstButton: () {},
                     onPressedSecondButton: () {},
                   ),

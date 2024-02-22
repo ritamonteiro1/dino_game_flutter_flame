@@ -50,38 +50,7 @@ class DinoGame extends FlameGame {
   }
 
   void _createDinoComponent() {
-    final sprites = {
-      DinoStates.idle: SpriteAnimationData.sequenced(
-        amount: 4,
-        stepTime: 0.1,
-        textureSize: Vector2.all(24),
-        texturePosition: Vector2(0, 0),
-      ),
-      DinoStates.run: SpriteAnimationData.sequenced(
-        amount: 6,
-        stepTime: 0.1,
-        textureSize: Vector2.all(24),
-        texturePosition: Vector2((4) * 24, 0),
-      ),
-      DinoStates.kick: SpriteAnimationData.sequenced(
-        amount: 4,
-        stepTime: 0.1,
-        textureSize: Vector2.all(24),
-        texturePosition: Vector2((4 + 6) * 24, 0),
-      ),
-      DinoStates.hit: SpriteAnimationData.sequenced(
-        amount: 3,
-        stepTime: 0.1,
-        textureSize: Vector2.all(24),
-        texturePosition: Vector2((4 + 6 + 4) * 24, 0),
-      ),
-      DinoStates.sprint: SpriteAnimationData.sequenced(
-        amount: 7,
-        stepTime: 0.1,
-        textureSize: Vector2.all(24),
-        texturePosition: Vector2((4 + 6 + 4 + 3) * 24, 0),
-      ),
-    };
+    final sprites = _getDinoSprites();
     _dinoModel = DinoModel(lives: 5);
     _dinoComponent = DinoComponent(
       spritesImage: images.fromCache(AssetsGame.imageDino),
@@ -146,5 +115,40 @@ class DinoGame extends FlameGame {
     ];
     await images.loadAll(imageList);
     _setCameraAtCenterOfTheViewport();
+  }
+
+  Map<DinoStates, SpriteAnimationData> _getDinoSprites() {
+    return {
+      DinoStates.idle: SpriteAnimationData.sequenced(
+        amount: 4,
+        stepTime: 0.1,
+        textureSize: Vector2.all(24),
+        texturePosition: Vector2(0, 0),
+      ),
+      DinoStates.run: SpriteAnimationData.sequenced(
+        amount: 6,
+        stepTime: 0.1,
+        textureSize: Vector2.all(24),
+        texturePosition: Vector2((4) * 24, 0),
+      ),
+      DinoStates.kick: SpriteAnimationData.sequenced(
+        amount: 4,
+        stepTime: 0.1,
+        textureSize: Vector2.all(24),
+        texturePosition: Vector2((4 + 6) * 24, 0),
+      ),
+      DinoStates.hit: SpriteAnimationData.sequenced(
+        amount: 3,
+        stepTime: 0.1,
+        textureSize: Vector2.all(24),
+        texturePosition: Vector2((4 + 6 + 4) * 24, 0),
+      ),
+      DinoStates.sprint: SpriteAnimationData.sequenced(
+        amount: 7,
+        stepTime: 0.1,
+        textureSize: Vector2.all(24),
+        texturePosition: Vector2((4 + 6 + 4 + 3) * 24, 0),
+      ),
+    };
   }
 }

@@ -5,6 +5,7 @@ packages:
   - design_system
   - design_system/widgetbook/
   - game
+  - localizations
 
 command:
   bootstrap:

@@ -3,6 +3,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:game/src/system/dino_game.dart';
 import 'package:game/src/utils/constants/overlay_builder_ids.dart';
+import 'package:localizations/localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +17,9 @@ class DinoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Dino Game",
+      onGenerateTitle: (context) => DinoGameStrings.of(context)!.appName,
+      localizationsDelegates: DinoGameStrings.localizationsDelegates,
+      supportedLocales: DinoGameStrings.supportedLocales,
       home: Scaffold(
         body: GameWidget<DinoGame>.controlled(
           gameFactory: () {
@@ -40,9 +43,11 @@ class DinoApp extends StatelessWidget {
   Map<String, OverlayWidgetBuilder<DinoGame>> _overlayBuilderWidgets() {
     return {
       OverLayBuilderIds.hud: (BuildContext context, DinoGame game) {
+        const score = "20";
+        const high = "22";
         return Hud(
-          firstText: "Score: 20",
-          secondText: "High: 22",
+          firstText: "${DinoGameStrings.of(context)!.score}$score",
+          secondText: "${DinoGameStrings.of(context)!.score}$high",
           onPressedPauseIcon: () {
             game.overlays.remove(OverLayBuilderIds.hud);
             game.overlays.add(OverLayBuilderIds.pauseMenu);
@@ -54,9 +59,9 @@ class DinoApp extends StatelessWidget {
       },
       OverLayBuilderIds.mainMenu: (BuildContext context, DinoGame game) {
         return MainMenu(
-          title: "Dino Game",
-          textFirstButton: "Jogar",
-          textSecondButton: "Configurações",
+          title: DinoGameStrings.of(context)!.appName,
+          textFirstButton: DinoGameStrings.of(context)!.play,
+          textSecondButton: DinoGameStrings.of(context)!.settings,
           onPressedFirstButton: () {
             game.overlays.remove(OverLayBuilderIds.mainMenu);
             game.overlays.add(OverLayBuilderIds.hud);
@@ -69,11 +74,12 @@ class DinoApp extends StatelessWidget {
         );
       },
       OverLayBuilderIds.pauseMenu: (BuildContext context, DinoGame game) {
+        const score = "100";
         return PauseMenu(
-          title: "Score: 100",
-          textFirstButton: "Resume",
-          textSecondButton: "Restart",
-          textThirdButton: "Exit",
+          title: "${DinoGameStrings.of(context)!.score}$score",
+          textFirstButton: DinoGameStrings.of(context)!.resume,
+          textSecondButton: DinoGameStrings.of(context)!.restart,
+          textThirdButton: DinoGameStrings.of(context)!.exit,
           onPressedFirstButton: () {
             game.overlays.remove(OverLayBuilderIds.pauseMenu);
             game.overlays.add(OverLayBuilderIds.hud);
@@ -99,8 +105,8 @@ class DinoApp extends StatelessWidget {
       },
       OverLayBuilderIds.settingsMenu: (BuildContext context, DinoGame game) {
         return SettingsMenu(
-          firstText: "Music",
-          secondText: "Effects",
+          firstText: DinoGameStrings.of(context)!.music,
+          secondText: DinoGameStrings.of(context)!.effects,
           isActiveFirstSwitch: true,
           isActiveSecondSwitch: false,
           onChangedFirstSwitch: (bool value) {},
@@ -112,11 +118,12 @@ class DinoApp extends StatelessWidget {
         );
       },
       OverLayBuilderIds.gameOverMenu: (BuildContext context, DinoGame game) {
+        const score = "20";
         return GameOverMenu(
-          title: "Game Over",
-          subtitle: "Seu Score: 20",
-          textFirstButton: "Restart",
-          textSecondButton: "Exit",
+          title: DinoGameStrings.of(context)!.gameOver,
+          subtitle: "${DinoGameStrings.of(context)!.yourScore}$score",
+          textFirstButton: DinoGameStrings.of(context)!.restart,
+          textSecondButton: DinoGameStrings.of(context)!.exit,
           onPressedFirstButton: () {
             game.overlays.remove(OverLayBuilderIds.gameOverMenu);
             game.overlays.add(OverLayBuilderIds.hud);

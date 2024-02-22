@@ -1,0 +1,7 @@
+arb-dir: lib/src/l10n
+output-dir: lib/src/generated
+
+template-arb-file: intl_pt.arb
+output-localization-file: dino_game_strings.dart
+output-class: DinoGameStrings
+synthetic-package: false

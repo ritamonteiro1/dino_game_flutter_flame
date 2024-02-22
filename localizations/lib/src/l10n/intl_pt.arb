@@ -1,0 +1,15 @@
+{
+  "@@locale": "pt",
+  "appName": "Dino Game",
+  "score": "Score: ",
+  "high": "High: ",
+  "play": "Jogar",
+  "settings": "Configurações",
+  "resume": "Retornar",
+  "restart": "Recomeçar",
+  "exit": "Sair",
+  "music": "Música",
+  "effects": "Efeitos",
+  "gameOver": "Game Over",
+  "yourScore": "Seu Score: "
+}

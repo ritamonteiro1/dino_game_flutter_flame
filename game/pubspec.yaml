@@ -14,6 +14,8 @@ dependencies:
     path: ../dependencies_src
   design_system:
     path: ../design_system
+  localizations:
+    path: ../localizations
 
 dev_dependencies:
   flutter_test:

@@ -47,7 +47,7 @@ class DinoApp extends StatelessWidget {
             game.overlays.remove(OverLayBuilderIds.hud);
             game.overlays.add(OverLayBuilderIds.pauseMenu);
             game.pauseEngine();
-            FlameAudio.bgm.pause();
+            game.pauseGameAudio();
           },
           lives: 4,
         );
@@ -78,7 +78,7 @@ class DinoApp extends StatelessWidget {
             game.overlays.remove(OverLayBuilderIds.pauseMenu);
             game.overlays.add(OverLayBuilderIds.hud);
             game.resumeEngine();
-            FlameAudio.bgm.resume();
+            game.resumeGameAudio();
           },
           onPressedSecondButton: () {
             game.overlays.remove(OverLayBuilderIds.pauseMenu);
@@ -86,14 +86,14 @@ class DinoApp extends StatelessWidget {
             game.resumeEngine();
             game.resetGame();
             game.startGame();
-            FlameAudio.bgm.resume();
+            game.resumeGameAudio();
           },
           onPressedThirdButton: () {
             game.overlays.remove(OverLayBuilderIds.pauseMenu);
             game.overlays.add(OverLayBuilderIds.hud);
             game.resumeEngine();
             game.resetGame();
-            FlameAudio.bgm.resume();
+            game.resumeGameAudio();
           },
         );
       },
@@ -123,14 +123,14 @@ class DinoApp extends StatelessWidget {
             game.resumeEngine();
             game.resetGame();
             game.startGame();
-            FlameAudio.bgm.resume();
+            game.resumeGameAudio();
           },
           onPressedSecondButton: () {
             game.overlays.remove(OverLayBuilderIds.gameOverMenu);
             game.overlays.add(OverLayBuilderIds.mainMenu);
             game.resumeEngine();
             game.resetGame();
-            FlameAudio.bgm.resume();
+            game.resumeGameAudio();
           },
         );
       },

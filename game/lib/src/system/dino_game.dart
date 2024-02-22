@@ -41,6 +41,14 @@ class DinoGame extends FlameGame {
     _dinoComponent.removeFromParent();
   }
 
+  void resumeGameAudio() {
+    FlameAudio.bgm.resume();
+  }
+
+  void pauseGameAudio() {
+    FlameAudio.bgm.pause();
+  }
+
   void _createDinoComponent() {
     final sprites = {
       DinoStates.idle: SpriteAnimationData.sequenced(

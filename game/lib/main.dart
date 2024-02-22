@@ -55,6 +55,7 @@ class DinoApp extends StatelessWidget {
           onPressedFirstButton: () {
             game.overlays.remove(OverLayBuilderIds.mainMenu);
             game.overlays.add(OverLayBuilderIds.hud);
+            game.startGame();
           },
           onPressedSecondButton: () {},
         );

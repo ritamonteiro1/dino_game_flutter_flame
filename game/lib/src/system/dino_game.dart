@@ -1,4 +1,7 @@
 import 'package:dependencies_src/dependencies_src.dart';
+import 'package:game/src/components/dino/dino_component.dart';
+import 'package:game/src/entities/dino/dino_model.dart';
+import 'package:game/src/entities/dino/dino_states.dart';
 import 'package:game/src/utils/assets_game.dart';
 
 class DinoGame extends FlameGame {
@@ -7,6 +10,9 @@ class DinoGame extends FlameGame {
     super.world,
     super.camera,
   });
+
+  late DinoComponent _dinoComponent;
+  late DinoModel _dinoModel;
 
   Vector2 get cameraVirtualSize => camera.viewport.virtualSize;
 
@@ -24,6 +30,52 @@ class DinoGame extends FlameGame {
   void update(double dt) {
     // TODO: implement update
     super.update(dt);
+  }
+
+  void startGame() {
+    _createDinoComponent();
+    world.add(_dinoComponent);
+  }
+
+  void _createDinoComponent() {
+    final sprites = {
+      DinoStates.idle: SpriteAnimationData.sequenced(
+        amount: 4,
+        stepTime: 0.1,
+        textureSize: Vector2.all(24),
+        texturePosition: Vector2(0, 0),
+      ),
+      DinoStates.run: SpriteAnimationData.sequenced(
+        amount: 6,
+        stepTime: 0.1,
+        textureSize: Vector2.all(24),
+        texturePosition: Vector2((4) * 24, 0),
+      ),
+      DinoStates.kick: SpriteAnimationData.sequenced(
+        amount: 4,
+        stepTime: 0.1,
+        textureSize: Vector2.all(24),
+        texturePosition: Vector2((4 + 6) * 24, 0),
+      ),
+      DinoStates.hit: SpriteAnimationData.sequenced(
+        amount: 3,
+        stepTime: 0.1,
+        textureSize: Vector2.all(24),
+        texturePosition: Vector2((4 + 6 + 4) * 24, 0),
+      ),
+      DinoStates.sprint: SpriteAnimationData.sequenced(
+        amount: 7,
+        stepTime: 0.1,
+        textureSize: Vector2.all(24),
+        texturePosition: Vector2((4 + 6 + 4 + 3) * 24, 0),
+      ),
+    };
+    _dinoModel = DinoModel(lives: 5);
+    _dinoComponent = DinoComponent(
+      spritesImage: images.fromCache(AssetsGame.imageDino),
+      sprites: sprites,
+      dinoModel: _dinoModel,
+    );
   }
 
   Future<void> _setGameBackground() async {

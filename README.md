@@ -2,6 +2,8 @@
 
 Este projeto replica o jogo [Dino](https://github.com/ufrshubham/dino_run) e tem como objetivo ser uma base de estudo para o [Flutter Flame](https://docs.flame-engine.org)
 
+<img src="assets/read_me/dino_games_coordinates.png>
+
 ## Instalar dependências e rodar o projeto
 
 ```bash

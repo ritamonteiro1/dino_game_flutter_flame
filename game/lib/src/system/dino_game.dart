@@ -16,6 +16,8 @@ class DinoGame extends FlameGame {
 
   Vector2 get cameraVirtualSize => camera.viewport.virtualSize;
 
+  bool isEffectEnabled = true;
+
   @override
   Future<void> onLoad() async {
     _setScreenConfig();
@@ -86,6 +88,14 @@ class DinoGame extends FlameGame {
 
     FlameAudio.bgm.initialize();
     await FlameAudio.audioCache.loadAll(audioList);
+  }
+
+  void disableGameEffects() {
+    isEffectEnabled = false;
+  }
+
+  void enableGameEffects() {
+    isEffectEnabled = true;
   }
 
   void resumeGameAudio() {

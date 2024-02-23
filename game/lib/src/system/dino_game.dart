@@ -20,7 +20,7 @@ class DinoGame extends FlameGame {
   Future<void> onLoad() async {
     _setScreenConfig();
     _loadGameAudios();
-    _startGameLoopAudio();
+    startGameAudio();
     _loadGameImages();
     _setGameBackground();
     return super.onLoad();
@@ -39,14 +39,6 @@ class DinoGame extends FlameGame {
 
   void resetGame() {
     _dinoComponent.removeFromParent();
-  }
-
-  void resumeGameAudio() {
-    FlameAudio.bgm.resume();
-  }
-
-  void pauseGameAudio() {
-    FlameAudio.bgm.pause();
   }
 
   void _createDinoComponent() {
@@ -96,8 +88,20 @@ class DinoGame extends FlameGame {
     await FlameAudio.audioCache.loadAll(audioList);
   }
 
-  Future<void> _startGameLoopAudio() async {
+  void resumeGameAudio() {
+    FlameAudio.bgm.resume();
+  }
+
+  void pauseGameAudio() {
+    FlameAudio.bgm.pause();
+  }
+
+  void startGameAudio() {
     FlameAudio.bgm.play(AssetsGame.audioLooper, volume: 0.4);
+  }
+
+  void stopGameAudio() {
+    FlameAudio.bgm.stop();
   }
 
   Future<void> _loadGameImages() async {

@@ -107,9 +107,13 @@ class DinoApp extends StatelessWidget {
         return SettingsMenu(
           firstText: DinoGameStrings.of(context)!.music,
           secondText: DinoGameStrings.of(context)!.effects,
-          isActiveFirstSwitch: true,
-          isActiveSecondSwitch: false,
-          onChangedFirstSwitch: (bool value) {},
+          onChangedFirstSwitch: (bool value) {
+            if (value) {
+              game.startGameAudio();
+            } else {
+              game.stopGameAudio();
+            }
+          },
           onChangedSecondSwitch: (bool value) {},
           onPressedIconBack: () {
             game.overlays.remove(OverLayBuilderIds.settingsMenu);

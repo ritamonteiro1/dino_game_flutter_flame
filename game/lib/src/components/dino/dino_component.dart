@@ -50,8 +50,19 @@ class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
   }
 
   void jump() {
-    current = DinoStates.idle;
-    _playJumpAudio();
+    if (_isOnGround()) {
+      _speedY = -300;
+      current = DinoStates.idle;
+      _playJumpAudio();
+    }
+  }
+
+  void _hit() {
+    _isHit = true;
+    _playHurtAudio();
+    current = DinoStates.hit;
+    _animationsTimer.start();
+    dinoModel.lives -= 1;
   }
 
   void _setCallbackForAnimationsTimer() {
@@ -91,7 +102,7 @@ class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
     FlameAudio.play(AssetsGame.audioJump);
   }
 
-  void playJumpAudio() {
+  void _playHurtAudio() {
     FlameAudio.play(AssetsGame.audioHurt);
   }
 }

@@ -56,8 +56,6 @@ class WidgetBookDinoGame extends StatelessWidget {
                   child: SettingsMenu(
                     firstText: "Música",
                     secondText: "Efeitos",
-                    isActiveFirstSwitch: true,
-                    isActiveSecondSwitch: false,
                     onChangedFirstSwitch: (bool value) {},
                     onChangedSecondSwitch: (bool value) {},
                     onPressedIconBack: () {},

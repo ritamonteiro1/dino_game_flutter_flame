@@ -2,13 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class SettingsMenu extends StatelessWidget {
+class SettingsMenu extends StatefulWidget {
   const SettingsMenu({
     super.key,
     required this.firstText,
     required this.secondText,
-    required this.isActiveFirstSwitch,
-    required this.isActiveSecondSwitch,
     required this.onChangedFirstSwitch,
     required this.onChangedSecondSwitch,
     required this.onPressedIconBack,
@@ -16,11 +14,24 @@ class SettingsMenu extends StatelessWidget {
 
   final String firstText;
   final String secondText;
-  final bool isActiveFirstSwitch;
-  final bool isActiveSecondSwitch;
   final void Function(bool) onChangedFirstSwitch;
   final void Function(bool) onChangedSecondSwitch;
   final VoidCallback onPressedIconBack;
+
+  @override
+  State<SettingsMenu> createState() => _SettingsMenuState();
+}
+
+class _SettingsMenuState extends State<SettingsMenu> {
+  late bool isActiveFirstSwitch;
+  late bool isActiveSecondSwitch;
+
+  @override
+  void initState() {
+    super.initState();
+    isActiveFirstSwitch = true;
+    isActiveSecondSwitch = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +54,7 @@ class SettingsMenu extends StatelessWidget {
                 children: [
                   SwitchListTile(
                     title: Text(
-                      firstText,
+                      widget.firstText,
                       style: const TextStyle(
                         fontSize: 30,
                         color: Colors.white,
@@ -51,12 +62,15 @@ class SettingsMenu extends StatelessWidget {
                     ),
                     value: isActiveFirstSwitch,
                     onChanged: (bool value) {
-                      onChangedFirstSwitch.call(value);
+                      setState(() {
+                        isActiveFirstSwitch = value;
+                      });
+                      widget.onChangedFirstSwitch.call(value);
                     },
                   ),
                   SwitchListTile(
                     title: Text(
-                      secondText,
+                      widget.secondText,
                       style: const TextStyle(
                         fontSize: 30,
                         color: Colors.white,
@@ -64,12 +78,15 @@ class SettingsMenu extends StatelessWidget {
                     ),
                     value: isActiveSecondSwitch,
                     onChanged: (bool value) {
-                      onChangedSecondSwitch.call(value);
+                      setState(() {
+                        isActiveSecondSwitch = value;
+                      });
+                      widget.onChangedSecondSwitch.call(value);
                     },
                   ),
                   TextButton(
                     onPressed: () {
-                      onPressedIconBack.call();
+                      widget.onPressedIconBack.call();
                     },
                     child: const Icon(Icons.arrow_back_ios_rounded),
                   ),

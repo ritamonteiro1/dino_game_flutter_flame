@@ -54,7 +54,7 @@ class DinoGame extends FlameGame with TapDetector {
 
   void _createDinoComponent() {
     final sprites = _getDinoSprites();
-    _dinoModel = DinoModel(lives: 5);
+    _dinoModel = DinoModel();
     _dinoComponent = DinoComponent(
       spritesImage: images.fromCache(AssetsGame.imageDino),
       sprites: sprites,

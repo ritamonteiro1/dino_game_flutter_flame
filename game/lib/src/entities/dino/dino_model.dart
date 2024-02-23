@@ -1,7 +1,3 @@
 class DinoModel {
-  final int lives;
-
-  DinoModel({
-    required this.lives,
-  });
+  int lives = 5;
 }

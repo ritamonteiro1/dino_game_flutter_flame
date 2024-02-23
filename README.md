@@ -1,7 +1,6 @@
 # Dino Game
 
-https://github.com/ufrshubham/dino_run
-
+Este projeto replica o jogo [Dino](https://github.com/ufrshubham/dino_run) e tem como objetivo ser uma base de estudo para o [Flutter Flame](https://docs.flame-engine.org)
 
 ## Instalar dependências e rodar o projeto
 

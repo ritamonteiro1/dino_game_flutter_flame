@@ -17,7 +17,7 @@ class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
   final DinoModel dinoModel;
 
   static const _gravity = 800.00;
-  final _hitTimer = Timer(1);
+  final _animationsTimer = Timer(1);
 
   double _yMax = 0.00;
   double _speedY = 0.00;
@@ -28,10 +28,7 @@ class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
     _setFirstStatus();
     _addHitBox();
     _yMax = y;
-    _hitTimer.onTick = () {
-      current = DinoStates.run;
-      _isHit = false;
-    };
+    _setCallbackForAnimationsTimer();
     super.onMount();
   }
 
@@ -48,13 +45,20 @@ class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
       }
     }
 
-    _hitTimer.update(dt);
+    _animationsTimer.update(dt);
     super.update(dt);
   }
 
   void jump() {
     current = DinoStates.idle;
     _playJumpAudio();
+  }
+
+  void _setCallbackForAnimationsTimer() {
+    _animationsTimer.onTick = () {
+      current = DinoStates.run;
+      _isHit = false;
+    };
   }
 
   void _setFirstStatus() {

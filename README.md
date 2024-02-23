@@ -33,3 +33,17 @@ $ flutter run
 # Ainda no terminal, escolha o device de preferência (Chrome ou Edge) e aguarde
 
 ```
+
+## Adicionar strings no projeto
+
+```bash
+
+# Adicione o texto desejado no arquivo intl_pt.arb que está no pacote localizations
+
+# Acesse o pacote:
+$ cd localizations
+
+# Execute o seguinte comando e aguarde:
+$ flutter gen-l10n
+
+```

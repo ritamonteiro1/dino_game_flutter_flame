@@ -13,4 +13,21 @@ class EnemyComponent extends SpriteAnimationComponent
 
   final SpriteAnimation sprite;
   final EnemyModel enemyModel;
+
+  @override
+  void onMount() {
+    size *= 0.6;
+    _addHitBox();
+    super.onMount();
+  }
+
+  void _addHitBox() {
+    add(
+      RectangleHitbox.relative(
+        Vector2.all(0.8),
+        parentSize: size,
+        position: Vector2(size.x * 0.2, size.y * 0.2) / 2,
+      ),
+    );
+  }
 }

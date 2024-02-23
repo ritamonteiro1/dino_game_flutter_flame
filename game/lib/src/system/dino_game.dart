@@ -3,8 +3,9 @@ import 'package:game/src/components/dino/dino_component.dart';
 import 'package:game/src/entities/dino/dino_model.dart';
 import 'package:game/src/entities/dino/dino_states.dart';
 import 'package:game/src/utils/constants/assets_game.dart';
+import 'package:game/src/utils/constants/overlay_builder_ids.dart';
 
-class DinoGame extends FlameGame {
+class DinoGame extends FlameGame with TapDetector {
   DinoGame({
     super.children,
     super.world,
@@ -32,6 +33,14 @@ class DinoGame extends FlameGame {
   void update(double dt) {
     // TODO: implement update
     super.update(dt);
+  }
+
+  @override
+  void onTapDown(TapDownInfo info) {
+    if (overlays.isActive(OverLayBuilderIds.hud)) {
+      _dinoComponent.jump();
+    }
+    super.onTapDown(info);
   }
 
   void startGame() {

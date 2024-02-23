@@ -17,7 +17,7 @@ class DinoGame extends FlameGame with TapDetector {
 
   Vector2 get cameraVirtualSize => camera.viewport.virtualSize;
 
-  bool isEffectEnabled = true;
+  bool isEnabledJumpAndHurtEffects = true;
 
   @override
   Future<void> onLoad() async {
@@ -100,11 +100,11 @@ class DinoGame extends FlameGame with TapDetector {
   }
 
   void disableGameEffects() {
-    isEffectEnabled = false;
+    isEnabledJumpAndHurtEffects = false;
   }
 
   void enableGameEffects() {
-    isEffectEnabled = true;
+    isEnabledJumpAndHurtEffects = true;
   }
 
   void resumeGameAudio() {

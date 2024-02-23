@@ -16,11 +16,40 @@ class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
   final Map<DinoStates, SpriteAnimationData> sprites;
   final DinoModel dinoModel;
 
+  static const _gravity = 800.00;
+  final _hitTimer = Timer(1);
+
+  double _yMax = 0.00;
+  double _speedY = 0.00;
+  bool _isHit = false;
+
   @override
   void onMount() {
     _setFirstStatus();
     _addHitBox();
+    _yMax = y;
+    _hitTimer.onTick = () {
+      current = DinoStates.run;
+      _isHit = false;
+    };
     super.onMount();
+  }
+
+  @override
+  void update(double dt) {
+    _speedY += _gravity * dt;
+    y += _speedY * dt;
+
+    if (_isOnGround()) {
+      y = _yMax;
+      _speedY = 0.00;
+      if (current != DinoStates.hit && current != DinoStates.run) {
+        current = DinoStates.run;
+      }
+    }
+
+    _hitTimer.update(dt);
+    super.update(dt);
   }
 
   void jump() {
@@ -36,6 +65,12 @@ class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
     position = Vector2(32, game.cameraVirtualSize.y - 22);
     size = Vector2.all(24);
     current = DinoStates.run;
+    _isHit = false;
+    _speedY = 0.00;
+  }
+
+  bool _isOnGround() {
+    return y >= _yMax;
   }
 
   void _addHitBox() {

@@ -1,11 +1,12 @@
 import 'package:dependencies_src/dependencies_src.dart';
+import 'package:game/src/components/enemy/enemy_component.dart';
 import 'package:game/src/entities/dino/dino_model.dart';
 import 'package:game/src/entities/dino/dino_states.dart';
 import 'package:game/src/system/dino_game.dart';
 import 'package:game/src/utils/constants/assets_game.dart';
 
 class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
-    with HasGameReference<DinoGame> {
+    with CollisionCallbacks, HasGameReference<DinoGame> {
   DinoComponent({
     required this.spritesImage,
     required this.sprites,
@@ -47,6 +48,14 @@ class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
 
     _animationsTimer.update(dt);
     super.update(dt);
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if ((other is EnemyComponent) && (!_isHit)) {
+      _hit();
+    }
+    super.onCollision(intersectionPoints, other);
   }
 
   void jump() {

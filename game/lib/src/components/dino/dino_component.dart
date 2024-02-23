@@ -2,6 +2,7 @@ import 'package:dependencies_src/dependencies_src.dart';
 import 'package:game/src/entities/dino/dino_model.dart';
 import 'package:game/src/entities/dino/dino_states.dart';
 import 'package:game/src/system/dino_game.dart';
+import 'package:game/src/utils/constants/assets_game.dart';
 
 class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
     with HasGameReference<DinoGame> {
@@ -17,12 +18,17 @@ class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
 
   @override
   void onMount() {
-    _setDinoComponentFirstStatus();
-    _addHitBoxToDinoComponent();
+    _setFirstStatus();
+    _addHitBox();
     super.onMount();
   }
 
-  void _setDinoComponentFirstStatus() {
+  void jump() {
+    current = DinoStates.idle;
+    _playJumpAudio();
+  }
+
+  void _setFirstStatus() {
     if (isMounted) {
       removeFromParent();
     }
@@ -32,7 +38,7 @@ class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
     current = DinoStates.run;
   }
 
-  void _addHitBoxToDinoComponent() {
+  void _addHitBox() {
     add(
       RectangleHitbox.relative(
         Vector2(0.5, 0.7),
@@ -40,5 +46,13 @@ class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
         position: Vector2(size.x * 0.5, size.y * 0.3) / 2,
       ),
     );
+  }
+
+  void _playJumpAudio() {
+    FlameAudio.play(AssetsGame.audioJump);
+  }
+
+  void playJumpAudio() {
+    FlameAudio.play(AssetsGame.audioHurt);
   }
 }

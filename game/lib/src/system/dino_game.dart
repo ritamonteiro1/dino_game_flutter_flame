@@ -25,6 +25,7 @@ class DinoGame extends FlameGame with TapDetector {
 
   @override
   Future<void> onLoad() async {
+    dinoModel = DinoModel();
     _setScreenConfig();
     _loadGameAudios();
     startGameAudio();
@@ -97,7 +98,6 @@ class DinoGame extends FlameGame with TapDetector {
 
   void _createDinoComponent() {
     final sprites = _getDinoSprites();
-    dinoModel = DinoModel();
     _dinoComponent = DinoComponent(
       spritesImage: images.fromCache(AssetsGame.imageDino),
       sprites: sprites,

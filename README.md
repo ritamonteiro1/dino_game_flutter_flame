@@ -8,19 +8,10 @@ Este projeto replica o jogo [Dino](https://github.com/ufrshubham/dino_run) e tem
 
 ```bash
 
-# Na raiz do repositório instale a dependência [Melos](https://melos.invertase.dev/):
-$ dart pub global activate melos
-
-# Inicialize a dependência:
-$ melos bootstrap
-
 # Instale as dependências do projeto:
 $ melos pub:get
 
-# Acesse a pasta game:
-$ cd game
-
-# Rode o projeto:
+# Acesse a pasta game e execute o comando:
 $ flutter run
 
 ```
@@ -29,23 +20,9 @@ $ flutter run
 
 ```bash
 
-# Acesse a pasta widgetbook dentro da pasta design_system e execute o comando:
+# Acesse a pasta widgetbook e execute o comando:
 $ flutter run
 
 # Ainda no terminal, escolha o device de preferência (Chrome ou Edge) e aguarde
-
-```
-
-## Adicionar strings no projeto
-
-```bash
-
-# Adicione o texto desejado no arquivo intl_pt.arb que está no pacote localizations
-
-# Acesse o pacote:
-$ cd localizations
-
-# Execute o seguinte comando e aguarde:
-$ flutter gen-l10n
 
 ```

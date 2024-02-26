@@ -5,13 +5,18 @@ import 'package:game/src/system/dino_game.dart';
 class EnemyComponent extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameReference<DinoGame> {
   EnemyComponent({
-    required this.sprite,
     required this.enemyModel,
   }) {
-    animation = sprite;
+    animation = SpriteAnimation.fromFrameData(
+      enemyModel.image,
+      SpriteAnimationData.sequenced(
+        amount: enemyModel.amountOfFrames,
+        stepTime: enemyModel.stepTime,
+        textureSize: enemyModel.textureSize,
+      ),
+    );
   }
 
-  final SpriteAnimation sprite;
   final EnemyModel enemyModel;
 
   @override
@@ -19,6 +24,19 @@ class EnemyComponent extends SpriteAnimationComponent
     size *= 0.6;
     _addHitBox();
     super.onMount();
+  }
+
+  @override
+  void update(double dt) {
+    position.x -= enemyModel.speedX * dt;
+
+    final itPassedByDinoComponent = position.x < -enemyModel.textureSize.x;
+    if (itPassedByDinoComponent) {
+      removeFromParent();
+      game.dinoModel.currentScore += 1;
+    }
+
+    super.update(dt);
   }
 
   void _addHitBox() {

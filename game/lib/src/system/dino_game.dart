@@ -1,9 +1,9 @@
 import 'package:dependencies_src/dependencies_src.dart';
+import 'package:flutter/material.dart';
 import 'package:game/src/components/dino/dino_component.dart';
-import 'package:game/src/components/enemy/enemy_component.dart';
+import 'package:game/src/components/enemy/enemy_list_component.dart';
 import 'package:game/src/entities/dino/dino_model.dart';
 import 'package:game/src/entities/dino/dino_states.dart';
-import 'package:game/src/entities/enemy/enemy_model.dart';
 import 'package:game/src/utils/constants/assets_game.dart';
 import 'package:game/src/utils/constants/overlay_builder_ids.dart';
 
@@ -15,10 +15,9 @@ class DinoGame extends FlameGame with TapDetector {
   });
 
   late DinoComponent _dinoComponent;
-  late DinoModel _dinoModel;
+  late EnemyListComponent _enemyListComponent;
 
-  late EnemyComponent _enemyComponent;
-  late List<EnemyModel> _enemyListModel;
+  late DinoModel dinoModel;
 
   bool isEnabledJumpAndHurtEffects = true;
 
@@ -36,7 +35,13 @@ class DinoGame extends FlameGame with TapDetector {
 
   @override
   void update(double dt) {
-    // TODO: implement update
+    final dinoHasNoLives = dinoModel.lives <= 0;
+    if (dinoHasNoLives) {
+      overlays.add(OverLayBuilderIds.gameOverMenu);
+      overlays.remove(OverLayBuilderIds.hud);
+      pauseEngine();
+      FlameAudio.bgm.pause();
+    }
     super.update(dt);
   }
 
@@ -48,60 +53,60 @@ class DinoGame extends FlameGame with TapDetector {
     super.onTapDown(info);
   }
 
+  @override
+  void lifecycleStateChange(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        if (!(overlays.isActive(OverLayBuilderIds.pauseMenu)) &&
+            !(overlays.isActive(OverLayBuilderIds.gameOverMenu))) {
+          resumeEngine();
+        }
+        break;
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.hidden:
+        if (overlays.isActive(OverLayBuilderIds.hud)) {
+          overlays.remove(OverLayBuilderIds.hud);
+          overlays.add(OverLayBuilderIds.pauseMenu);
+        }
+        pauseEngine();
+        break;
+    }
+    super.lifecycleStateChange(state);
+  }
+
   void startGame() {
     _createDinoComponent();
-    _createEnemyComponent();
+    _createEnemyListComponent();
     world.add(_dinoComponent);
-    world.add(_enemyComponent);
+    world.add(_enemyListComponent);
   }
 
   void resetGame() {
+    _removeComponentsFromParent();
+    dinoModel.lives = 5;
+    dinoModel.currentScore = 0;
+  }
+
+  void _removeComponentsFromParent() {
     _dinoComponent.removeFromParent();
-    _enemyComponent.removeFromParent();
-    _dinoModel.lives = 5;
-    _dinoModel.currentScore = 0;
+    _enemyListComponent.removeEnemyListFromParent();
+    _enemyListComponent.removeFromParent();
   }
 
   void _createDinoComponent() {
     final sprites = _getDinoSprites();
-    _dinoModel = DinoModel();
+    dinoModel = DinoModel();
     _dinoComponent = DinoComponent(
       spritesImage: images.fromCache(AssetsGame.imageDino),
       sprites: sprites,
-      dinoModel: _dinoModel,
+      dinoModel: dinoModel,
     );
   }
 
-  void _createEnemyComponent() {
-    _enemyListModel.addAll([
-      EnemyModel(
-        image: images.fromCache(AssetsGame.imageAngryPig),
-        amountOfFrames: 16,
-        stepTime: 0.1,
-        textureSize: Vector2(36, 30),
-        speedX: 80,
-        canFly: false,
-      ),
-      EnemyModel(
-        image: images.fromCache(AssetsGame.imageBat),
-        amountOfFrames: 7,
-        stepTime: 0.1,
-        textureSize: Vector2(46, 30),
-        speedX: 100,
-        canFly: true,
-      ),
-      EnemyModel(
-        image: images.fromCache(AssetsGame.imageRino),
-        amountOfFrames: 6,
-        stepTime: 0.09,
-        textureSize: Vector2(52, 34),
-        speedX: 150,
-        canFly: false,
-      ),
-    ]);
-    _enemyComponent = EnemyComponent(
-      enemyListModel: _enemyListModel,
-    );
+  void _createEnemyListComponent() {
+    _enemyListComponent = EnemyListComponent();
   }
 
   Future<void> _setGameBackground() async {

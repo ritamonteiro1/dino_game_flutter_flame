@@ -7,7 +7,7 @@ import 'package:game/src/entities/dino/dino_states.dart';
 import 'package:game/src/utils/constants/assets_game.dart';
 import 'package:game/src/utils/constants/overlay_builder_ids.dart';
 
-class DinoGame extends FlameGame with TapDetector {
+class DinoGame extends FlameGame with TapDetector, HasCollisionDetection {
   DinoGame({
     super.children,
     super.world,

@@ -1,5 +1,5 @@
 import 'package:dependencies_src/dependencies_src.dart';
-import 'package:game/src/components/enemy/enemy_list_component.dart';
+import 'package:game/src/components/enemy/enemy_component.dart';
 import 'package:game/src/entities/dino/dino_model.dart';
 import 'package:game/src/entities/dino/dino_states.dart';
 import 'package:game/src/system/dino_game.dart';
@@ -52,7 +52,7 @@ class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if ((other is EnemyListComponent) && (!_isHit)) {
+    if ((other is EnemyComponent) && (!_isHit)) {
       _hit();
     }
     super.onCollision(intersectionPoints, other);

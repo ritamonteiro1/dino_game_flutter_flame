@@ -1,7 +1,9 @@
 import 'package:dependencies_src/dependencies_src.dart';
 import 'package:game/src/components/dino/dino_component.dart';
+import 'package:game/src/components/enemy/enemy_component.dart';
 import 'package:game/src/entities/dino/dino_model.dart';
 import 'package:game/src/entities/dino/dino_states.dart';
+import 'package:game/src/entities/enemy/enemy_model.dart';
 import 'package:game/src/utils/constants/assets_game.dart';
 import 'package:game/src/utils/constants/overlay_builder_ids.dart';
 
@@ -15,9 +17,12 @@ class DinoGame extends FlameGame with TapDetector {
   late DinoComponent _dinoComponent;
   late DinoModel _dinoModel;
 
-  Vector2 get cameraVirtualSize => camera.viewport.virtualSize;
+  late EnemyComponent _enemyComponent;
+  late List<EnemyModel> _enemyListModel;
 
   bool isEnabledJumpAndHurtEffects = true;
+
+  Vector2 get cameraVirtualSize => camera.viewport.virtualSize;
 
   @override
   Future<void> onLoad() async {
@@ -45,11 +50,16 @@ class DinoGame extends FlameGame with TapDetector {
 
   void startGame() {
     _createDinoComponent();
+    _createEnemyComponent();
     world.add(_dinoComponent);
+    world.add(_enemyComponent);
   }
 
   void resetGame() {
     _dinoComponent.removeFromParent();
+    _enemyComponent.removeFromParent();
+    _dinoModel.lives = 5;
+    _dinoModel.currentScore = 0;
   }
 
   void _createDinoComponent() {
@@ -59,6 +69,38 @@ class DinoGame extends FlameGame with TapDetector {
       spritesImage: images.fromCache(AssetsGame.imageDino),
       sprites: sprites,
       dinoModel: _dinoModel,
+    );
+  }
+
+  void _createEnemyComponent() {
+    _enemyListModel.addAll([
+      EnemyModel(
+        image: images.fromCache(AssetsGame.imageAngryPig),
+        amountOfFrames: 16,
+        stepTime: 0.1,
+        textureSize: Vector2(36, 30),
+        speedX: 80,
+        canFly: false,
+      ),
+      EnemyModel(
+        image: images.fromCache(AssetsGame.imageBat),
+        amountOfFrames: 7,
+        stepTime: 0.1,
+        textureSize: Vector2(46, 30),
+        speedX: 100,
+        canFly: true,
+      ),
+      EnemyModel(
+        image: images.fromCache(AssetsGame.imageRino),
+        amountOfFrames: 6,
+        stepTime: 0.09,
+        textureSize: Vector2(52, 34),
+        speedX: 150,
+        canFly: false,
+      ),
+    ]);
+    _enemyComponent = EnemyComponent(
+      enemyListModel: _enemyListModel,
     );
   }
 

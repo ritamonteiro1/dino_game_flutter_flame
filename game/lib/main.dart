@@ -1,12 +1,14 @@
 import 'package:dependencies_src/dependencies_src.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:game/src/system/dino_game.dart';
+import 'package:game/src/entities/dino/dino_model.dart';
+import 'package:game/src/system/game/dino_game.dart';
 import 'package:game/src/utils/constants/overlay_builder_ids.dart';
+import 'package:game/src/utils/init_config/init_config.dart';
 import 'package:localizations/localizations.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  await InitConfig.execute();
   runApp(const DinoApp());
 }
 
@@ -43,18 +45,37 @@ class DinoApp extends StatelessWidget {
   Map<String, OverlayWidgetBuilder<DinoGame>> _overlayBuilderWidgets() {
     return {
       OverLayBuilderIds.hud: (BuildContext context, DinoGame game) {
-        const score = "20";
-        const high = "22";
-        return Hud(
-          firstText: "${DinoGameStrings.of(context)!.score}$score",
-          secondText: "${DinoGameStrings.of(context)!.score}$high",
-          onPressedPauseIcon: () {
-            game.overlays.remove(OverLayBuilderIds.hud);
-            game.overlays.add(OverLayBuilderIds.pauseMenu);
-            game.pauseEngine();
-            game.pauseGameAudio();
-          },
-          lives: 4,
+        return ChangeNotifierProvider.value(
+          value: game.dinoModel,
+          child:
+              Selector3<DinoModel, DinoModel, DinoModel, Tuple3<int, int, int>>(
+                  selector: (
+                    context,
+                    dinoModelScore,
+                    dinoModelLives,
+                    dinoModelHigh,
+                  ) =>
+                      Tuple3(
+                        dinoModelScore.currentScore,
+                        dinoModelLives.lives,
+                        dinoModelHigh.highScore,
+                      ),
+                  builder: (context, dinoModel, __) {
+                    final score = dinoModel.item1;
+                    final lives = dinoModel.item2;
+                    final high = dinoModel.item3;
+                    return Hud(
+                      firstText: "${DinoGameStrings.of(context)!.score}$score",
+                      secondText: "${DinoGameStrings.of(context)!.high}$high",
+                      onPressedPauseIcon: () {
+                        game.overlays.remove(OverLayBuilderIds.hud);
+                        game.overlays.add(OverLayBuilderIds.pauseMenu);
+                        game.pauseEngine();
+                        game.pauseGameAudio();
+                      },
+                      lives: lives,
+                    );
+                  }),
         );
       },
       OverLayBuilderIds.mainMenu: (BuildContext context, DinoGame game) {
@@ -74,33 +95,40 @@ class DinoApp extends StatelessWidget {
         );
       },
       OverLayBuilderIds.pauseMenu: (BuildContext context, DinoGame game) {
-        const score = "100";
-        return PauseMenu(
-          title: "${DinoGameStrings.of(context)!.score}$score",
-          textFirstButton: DinoGameStrings.of(context)!.resume,
-          textSecondButton: DinoGameStrings.of(context)!.restart,
-          textThirdButton: DinoGameStrings.of(context)!.exit,
-          onPressedFirstButton: () {
-            game.overlays.remove(OverLayBuilderIds.pauseMenu);
-            game.overlays.add(OverLayBuilderIds.hud);
-            game.resumeEngine();
-            game.resumeGameAudio();
-          },
-          onPressedSecondButton: () {
-            game.overlays.remove(OverLayBuilderIds.pauseMenu);
-            game.overlays.add(OverLayBuilderIds.hud);
-            game.resumeEngine();
-            game.resetGame();
-            game.startGame();
-            game.resumeGameAudio();
-          },
-          onPressedThirdButton: () {
-            game.overlays.remove(OverLayBuilderIds.pauseMenu);
-            game.overlays.add(OverLayBuilderIds.hud);
-            game.resumeEngine();
-            game.resetGame();
-            game.resumeGameAudio();
-          },
+        return ChangeNotifierProvider.value(
+          value: game.dinoModel,
+          child: Selector<DinoModel, int>(
+            selector: (context, dinoModel) => dinoModel.currentScore,
+            builder: (context, score, __) {
+              return PauseMenu(
+                title: "${DinoGameStrings.of(context)!.score}$score",
+                textFirstButton: DinoGameStrings.of(context)!.resume,
+                textSecondButton: DinoGameStrings.of(context)!.restart,
+                textThirdButton: DinoGameStrings.of(context)!.exit,
+                onPressedFirstButton: () {
+                  game.overlays.remove(OverLayBuilderIds.pauseMenu);
+                  game.overlays.add(OverLayBuilderIds.hud);
+                  game.resumeEngine();
+                  game.resumeGameAudio();
+                },
+                onPressedSecondButton: () {
+                  game.overlays.remove(OverLayBuilderIds.pauseMenu);
+                  game.overlays.add(OverLayBuilderIds.hud);
+                  game.resumeEngine();
+                  game.resetGame();
+                  game.startGame();
+                  game.resumeGameAudio();
+                },
+                onPressedThirdButton: () {
+                  game.overlays.remove(OverLayBuilderIds.pauseMenu);
+                  game.overlays.add(OverLayBuilderIds.mainMenu);
+                  game.resumeEngine();
+                  game.resetGame();
+                  game.resumeGameAudio();
+                },
+              );
+            },
+          ),
         );
       },
       OverLayBuilderIds.settingsMenu: (BuildContext context, DinoGame game) {
@@ -128,27 +156,33 @@ class DinoApp extends StatelessWidget {
         );
       },
       OverLayBuilderIds.gameOverMenu: (BuildContext context, DinoGame game) {
-        const score = "20";
-        return GameOverMenu(
-          title: DinoGameStrings.of(context)!.gameOver,
-          subtitle: "${DinoGameStrings.of(context)!.yourScore}$score",
-          textFirstButton: DinoGameStrings.of(context)!.restart,
-          textSecondButton: DinoGameStrings.of(context)!.exit,
-          onPressedFirstButton: () {
-            game.overlays.remove(OverLayBuilderIds.gameOverMenu);
-            game.overlays.add(OverLayBuilderIds.hud);
-            game.resumeEngine();
-            game.resetGame();
-            game.startGame();
-            game.resumeGameAudio();
-          },
-          onPressedSecondButton: () {
-            game.overlays.remove(OverLayBuilderIds.gameOverMenu);
-            game.overlays.add(OverLayBuilderIds.mainMenu);
-            game.resumeEngine();
-            game.resetGame();
-            game.resumeGameAudio();
-          },
+        return ChangeNotifierProvider.value(
+          value: game.dinoModel,
+          child: Selector<DinoModel, int>(
+              selector: (context, dinoModel) => dinoModel.currentScore,
+              builder: (context, score, __) {
+                return GameOverMenu(
+                  title: DinoGameStrings.of(context)!.gameOver,
+                  subtitle: "${DinoGameStrings.of(context)!.yourScore}$score",
+                  textFirstButton: DinoGameStrings.of(context)!.restart,
+                  textSecondButton: DinoGameStrings.of(context)!.exit,
+                  onPressedFirstButton: () {
+                    game.overlays.remove(OverLayBuilderIds.gameOverMenu);
+                    game.overlays.add(OverLayBuilderIds.hud);
+                    game.resumeEngine();
+                    game.resetGame();
+                    game.startGame();
+                    game.resumeGameAudio();
+                  },
+                  onPressedSecondButton: () {
+                    game.overlays.remove(OverLayBuilderIds.gameOverMenu);
+                    game.overlays.add(OverLayBuilderIds.mainMenu);
+                    game.resumeEngine();
+                    game.resetGame();
+                    game.resumeGameAudio();
+                  },
+                );
+              }),
         );
       },
     };

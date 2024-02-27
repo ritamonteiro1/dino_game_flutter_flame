@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:dependencies_src/dependencies_src.dart';
 import 'package:game/src/components/enemy/enemy_component.dart';
 import 'package:game/src/entities/enemy/enemy_model.dart';
-import 'package:game/src/system/dino_game.dart';
+import 'package:game/src/system/game/dino_game.dart';
 import 'package:game/src/utils/constants/assets_game.dart';
 
 class EnemyListComponent extends Component with HasGameReference<DinoGame> {

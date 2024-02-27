@@ -4,6 +4,7 @@ import 'package:game/src/components/dino/dino_component.dart';
 import 'package:game/src/components/enemy/enemy_list_component.dart';
 import 'package:game/src/entities/dino/dino_model.dart';
 import 'package:game/src/entities/dino/dino_states.dart';
+import 'package:game/src/system/service/dino_game_service.dart';
 import 'package:game/src/utils/constants/assets_game.dart';
 import 'package:game/src/utils/constants/overlay_builder_ids.dart';
 
@@ -25,19 +26,19 @@ class DinoGame extends FlameGame with TapDetector, HasCollisionDetection {
 
   @override
   Future<void> onLoad() async {
-    dinoModel = DinoModel();
     _setScreenConfig();
+    dinoModel = await DinoGameService.getDinoModelFromCache();
     _loadGameAudios();
     startGameAudio();
     _loadGameImages();
+    _setCameraAtCenterOfTheViewport();
     _setGameBackground();
     return super.onLoad();
   }
 
   @override
   void update(double dt) {
-    final dinoHasNoLives = dinoModel.lives <= 0;
-    if (dinoHasNoLives) {
+    if (dinoModel.lives <= 0) {
       overlays.add(OverLayBuilderIds.gameOverMenu);
       overlays.remove(OverLayBuilderIds.hud);
       pauseEngine();
@@ -184,7 +185,6 @@ class DinoGame extends FlameGame with TapDetector, HasCollisionDetection {
       AssetsGame.imageRino,
     ];
     await images.loadAll(imageList);
-    _setCameraAtCenterOfTheViewport();
   }
 
   Map<DinoStates, SpriteAnimationData> _getDinoSprites() {

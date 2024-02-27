@@ -1,4 +1,32 @@
-class DinoModel {
-  int lives = 5;
-  int currentScore = 0;
+import 'package:dependencies_src/dependencies_src.dart';
+import 'package:flutter/cupertino.dart';
+
+@HiveType(typeId: 0)
+class DinoModel extends ChangeNotifier with HiveObjectMixin {
+  @HiveField(1)
+  int _highScore = 0;
+  int _currentScore = 0;
+  int _lives = 5;
+
+  int get highScore => _highScore;
+
+  int get currentScore => _currentScore;
+
+  int get lives => _lives;
+
+  set lives(int value) {
+    if (value >= 0 && value <= 5) {
+      _lives = value;
+      notifyListeners();
+    }
+  }
+
+  set currentScore(int value) {
+    _currentScore = value;
+    if (highScore < _currentScore) {
+      _highScore = _currentScore;
+    }
+    notifyListeners();
+    save();
+  }
 }

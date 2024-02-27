@@ -1,5 +1,7 @@
 import 'package:dependencies_src/dependencies_src.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+
+part 'dino_model.g.dart';
 
 @HiveType(typeId: 0)
 class DinoModel extends ChangeNotifier with HiveObjectMixin {

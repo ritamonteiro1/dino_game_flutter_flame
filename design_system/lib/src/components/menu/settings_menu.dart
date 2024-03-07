@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 class SettingsMenu extends StatefulWidget {
   const SettingsMenu({
     super.key,
+    required this.isActiveFirstSwitch,
+    required this.isActiveSecondSwitch,
     required this.firstText,
     required this.secondText,
     required this.onChangedFirstSwitch,
@@ -12,6 +14,8 @@ class SettingsMenu extends StatefulWidget {
     required this.onPressedIconBack,
   });
 
+  final bool isActiveFirstSwitch;
+  final bool isActiveSecondSwitch;
   final String firstText;
   final String secondText;
   final void Function(bool) onChangedFirstSwitch;
@@ -23,16 +27,6 @@ class SettingsMenu extends StatefulWidget {
 }
 
 class _SettingsMenuState extends State<SettingsMenu> {
-  late bool isActiveFirstSwitch;
-  late bool isActiveSecondSwitch;
-
-  @override
-  void initState() {
-    super.initState();
-    isActiveFirstSwitch = true;
-    isActiveSecondSwitch = true;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -60,11 +54,8 @@ class _SettingsMenuState extends State<SettingsMenu> {
                         color: Colors.white,
                       ),
                     ),
-                    value: isActiveFirstSwitch,
+                    value: widget.isActiveFirstSwitch,
                     onChanged: (bool value) {
-                      setState(() {
-                        isActiveFirstSwitch = value;
-                      });
                       widget.onChangedFirstSwitch.call(value);
                     },
                   ),
@@ -76,11 +67,8 @@ class _SettingsMenuState extends State<SettingsMenu> {
                         color: Colors.white,
                       ),
                     ),
-                    value: isActiveSecondSwitch,
+                    value: widget.isActiveSecondSwitch,
                     onChanged: (bool value) {
-                      setState(() {
-                        isActiveSecondSwitch = value;
-                      });
                       widget.onChangedSecondSwitch.call(value);
                     },
                   ),

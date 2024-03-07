@@ -3,6 +3,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:game/src/entities/dino/dino_model.dart';
 import 'package:game/src/system/game/dino_game.dart';
+import 'package:game/src/system/model/settings.dart';
 import 'package:game/src/utils/constants/overlay_builder_ids.dart';
 import 'package:game/src/utils/init_config/init_config.dart';
 import 'package:localizations/localizations.dart';
@@ -132,27 +133,40 @@ class DinoApp extends StatelessWidget {
         );
       },
       OverLayBuilderIds.settingsMenu: (BuildContext context, DinoGame game) {
-        return SettingsMenu(
-          firstText: DinoGameStrings.of(context)!.music,
-          secondText: DinoGameStrings.of(context)!.effects,
-          onChangedFirstSwitch: (bool isEnabled) {
-            if (isEnabled) {
-              game.startGameAudio();
-            } else {
-              game.stopGameAudio();
-            }
-          },
-          onChangedSecondSwitch: (bool isEnabled) {
-            if (isEnabled) {
-              game.enableGameEffects();
-            } else {
-              game.disableGameEffects();
-            }
-          },
-          onPressedIconBack: () {
-            game.overlays.remove(OverLayBuilderIds.settingsMenu);
-            game.overlays.add(OverLayBuilderIds.mainMenu);
-          },
+        return ChangeNotifierProvider.value(
+          value: game.settings,
+          child: Selector2<Settings, Settings, Tuple2<bool, bool>>(
+              selector: (context, settingsMusic, settingsEffects) => Tuple2(
+                    settingsMusic.isEnabledBmg,
+                    settingsEffects.isEnabledSfx,
+                  ),
+              builder: (context, settings, __) {
+                final isActiveGameAudio = settings.item1;
+                final isActiveGameEffect = settings.item2;
+                return SettingsMenu(
+                  isActiveFirstSwitch: isActiveGameAudio,
+                  isActiveSecondSwitch: isActiveGameEffect,
+                  firstText: DinoGameStrings.of(context)!.music,
+                  secondText: DinoGameStrings.of(context)!.effects,
+                  onChangedFirstSwitch: (bool isEnabled) {
+                    Provider.of<Settings>(context, listen: false).isEnabledBmg =
+                        isEnabled;
+                    if (isEnabled) {
+                      game.startGameAudio();
+                    } else {
+                      game.stopGameAudio();
+                    }
+                  },
+                  onChangedSecondSwitch: (bool isEnabled) {
+                    Provider.of<Settings>(context, listen: false).isEnabledSfx =
+                        isEnabled;
+                  },
+                  onPressedIconBack: () {
+                    game.overlays.remove(OverLayBuilderIds.settingsMenu);
+                    game.overlays.add(OverLayBuilderIds.mainMenu);
+                  },
+                );
+              }),
         );
       },
       OverLayBuilderIds.gameOverMenu: (BuildContext context, DinoGame game) {

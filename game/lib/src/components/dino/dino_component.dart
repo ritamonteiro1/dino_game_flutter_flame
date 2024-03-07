@@ -108,10 +108,14 @@ class DinoComponent extends SpriteAnimationGroupComponent<DinoStates>
   }
 
   void _playJumpAudio() {
-    FlameAudio.play(AssetsGame.audioJump);
+    if (game.settings.isEnabledSfx) {
+      FlameAudio.play(AssetsGame.audioJump);
+    }
   }
 
   void _playHurtAudio() {
-    FlameAudio.play(AssetsGame.audioHurt);
+    if (game.settings.isEnabledSfx) {
+      FlameAudio.play(AssetsGame.audioHurt);
+    }
   }
 }
